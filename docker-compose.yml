@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  dev:
+    image: webdevops/php-apache-dev:7.1
+    volumes:
+      - .:/app
+      - "./docker/php.ini:/usr/local/etc/php/php.ini"
+    ports:
+      - 90:80
+      - 8090:8000
+    restart: always
+    networks:
+      - rede-laravel
+
+  mysql-dev:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD:'root'
+    ports:
+      - 3333:3306
+    networks:
+      - rede-laravel
+
+networks:
+  rede-laravel:
+    driver: bridge
+
